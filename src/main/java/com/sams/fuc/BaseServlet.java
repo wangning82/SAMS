@@ -1,4 +1,4 @@
-package com.growtogether.fuc;
+package com.sams.fuc;
 
 import com.alibaba.fastjson.JSON;
 import javax.servlet.ServletException;

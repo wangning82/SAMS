@@ -1,12 +1,12 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.growtogether.taluser.service;
+package com.sams.taluser.service;
 
 import java.util.List;
 
-import com.growtogether.taluser.dao.TalUserDao;
-import com.growtogether.taluser.entity.TalUser;
+import com.sams.taluser.dao.TalUserDao;
+import com.sams.taluser.entity.TalUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

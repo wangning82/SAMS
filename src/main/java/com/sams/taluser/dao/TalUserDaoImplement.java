@@ -1,6 +1,6 @@
-package com.growtogether.taluser.dao;
+package com.sams.taluser.dao;
 
-import com.growtogether.taluser.entity.TalUser;
+import com.sams.taluser.entity.TalUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

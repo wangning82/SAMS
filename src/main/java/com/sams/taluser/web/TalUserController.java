@@ -1,13 +1,13 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.growtogether.taluser.web;
+package com.sams.taluser.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.growtogether.taluser.entity.TalUser;
-import com.growtogether.taluser.service.TalUserService;
+import com.sams.taluser.entity.TalUser;
+import com.sams.taluser.service.TalUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,14 +51,14 @@ public class TalUserController extends BaseController {
 	public String list(TalUser talUser, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<TalUser> page = talUserService.findPage(new Page<TalUser>(request, response), talUser); 
 		model.addAttribute("page", page);
-		return "growtogether/taluser/talUserList";
+		return "sams/taluser/talUserList";
 	}
 
 	@RequiresPermissions("taluser:talUser:view")
 	@RequestMapping(value = "form")
 	public String form(TalUser talUser, Model model) {
 		model.addAttribute("talUser", talUser);
-		return "growtogether/taluser/talUserForm";
+		return "sams/taluser/talUserForm";
 	}
 
 	@RequiresPermissions("taluser:talUser:edit")
