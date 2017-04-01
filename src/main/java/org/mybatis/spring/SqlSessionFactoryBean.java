@@ -536,8 +536,8 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>,
 			}
 		}
 
-		// TODO 编译sqlsession时，启动定时器
-		new org.apache.ibatis.thread.Runnable(location, configuration).run();
+//		 TODO 编译sqlsession时，启动定时器
+//		new org.apache.ibatis.thread.Runnable(location, configuration).run();
 
 		return this.sqlSessionFactoryBuilder.build(configuration);
 	}

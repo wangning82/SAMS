@@ -824,11 +824,11 @@ public class Configuration {
 		// TODO 如果现在状态为刷新，则刷新(先删除后添加)
 		@SuppressWarnings("unchecked")
 		public V put(String key, V value) {
-			if (org.apache.ibatis.thread.Runnable.isRefresh()) {
-				remove(key);
-				org.apache.ibatis.thread.Runnable.log.debug("refresh key:"
-						+ key.substring(key.lastIndexOf(".") + 1));
-			}
+//			if (org.apache.ibatis.thread.Runnable.isRefresh()) {
+//				remove(key);
+//				org.apache.ibatis.thread.Runnable.log.debug("refresh key:"
+//						+ key.substring(key.lastIndexOf(".") + 1));
+//			}
 			if (containsKey(key))
 				throw new IllegalArgumentException(name
 						+ " already contains value for " + key);
