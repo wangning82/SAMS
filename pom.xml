@@ -73,6 +73,12 @@
 			<name>aliyun</name>
 			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
 		</repository>
+		<!--添加本地依赖-->
+		<repository>
+			<id>in-project</id>
+			<name>In Project Repo</name>
+			<url>file://${project.basedir}/lib</url>
+		</repository>
 	</repositories>
 	
 	<!-- 设定插件仓库 -->
@@ -156,14 +162,7 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databing</artifactId>
-			<version>2.3.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/fastjson-1.2.2.jar</systemPath>
-		</dependency>
-		
+
 		<!-- bean validate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -483,12 +482,12 @@
 			<version>${jackson.version}</version>
 		</dependency>
 		
-		<!-- fastjson json
+		 <!--fastjson json-->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
-		</dependency> -->
+		</dependency>
 		
 		<!-- xstream xml -->
 		<dependency>
@@ -564,9 +563,9 @@
 			<groupId>org.wltea</groupId>
 			<artifactId>analyzer</artifactId>
 			<version>2012_u6</version>
+			<type>jar</type>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/analyzer-2012_u6.jar</systemPath>
-
+			<systemPath>${basedir}/lib/analyzer-2012_u6.jar</systemPath>
 		</dependency>
 		<!-- GENERAL UTILS end -->
 		
@@ -580,29 +579,33 @@
 			<groupId>com.ckfinder</groupId>
 			<artifactId>apache-ant-zip</artifactId>
 			<version>2.3</version>
+			<type>jar</type>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/apache-ant-zip-2.3.jar</systemPath>
+			<systemPath>${basedir}/lib/apache-ant-zip-2.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.ckfinder</groupId>
 			<artifactId>ckfinder</artifactId>
 			<version>2.3</version>
+			<type>jar</type>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ckfinder-2.3.jar</systemPath>
+			<systemPath>${basedir}/lib/ckfinder-2.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.ckfinder</groupId>
 			<artifactId>ckfinderplugin-fileeditor</artifactId>
 			<version>2.3</version>
+			<type>jar</type>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ckfinderplugin-fileeditor-2.3.jar</systemPath>
+			<systemPath>${basedir}/lib/ckfinderplugin-fileeditor-2.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.ckfinder</groupId>
 			<artifactId>ckfinderplugin-imageresize</artifactId>
 			<version>2.3</version>
+			<type>jar</type>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ckfinderplugin-imageresize-2.3.jar</systemPath>
+			<systemPath>${basedir}/lib/ckfinderplugin-imageresize-2.3.jar</systemPath>
 		</dependency>
 		<!-- CKFinder end -->
 		
@@ -624,8 +627,9 @@
 			<groupId>bitwalker</groupId>
 			<artifactId>UserAgentUtils</artifactId>
 			<version>1.13</version>
+			<type>jar</type>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/UserAgentUtils-1.13.jar</systemPath>
+			<systemPath>${basedir}/lib/UserAgentUtils-1.13.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -938,11 +942,11 @@
 					<artifactId>dbunit</artifactId>
 					<version>2.4.8</version>
 				</dependency>
-			  	<dependency>
-				    <groupId>org.apache.poi</groupId>
-				    <artifactId>poi</artifactId>
-				    <version>3.2-FINAL</version>
-				</dependency>
+			  	<!--<dependency>-->
+				    <!--<groupId>org.apache.poi</groupId>-->
+				    <!--<artifactId>poi</artifactId>-->
+				    <!--<version>3.2-FINAL</version>-->
+				<!--</dependency>-->
 			</dependencies>
 			<build>
 				<plugins>
@@ -967,8 +971,8 @@
 									onerror="continue" encoding="${project.build.sourceEncoding}">
 									<classpath refid="maven.test.classpath" />
 									<transaction src="db/sys/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/cms/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/oa/jeesite_${jdbc.type}.sql"/>
+									<!--<transaction src="db/cms/jeesite_${jdbc.type}.sql"/>-->
+									<!--<transaction src="db/oa/jeesite_${jdbc.type}.sql"/>-->
 									<transaction src="db/gen/jeesite_${jdbc.type}.sql"/>
 									<transaction src="db/gen/example_${jdbc.type}.sql"/>
 									<transaction src="db/test/jeesite_${jdbc.type}.sql"/>

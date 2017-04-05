@@ -1,84 +1,134 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
 <head>
-	<title>订单管理</title>
-	<meta name="decorator" content="default"/>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			//$("#name").focus();
-			$("#inputForm").validate({
-				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
-				},
-				errorContainer: "#messageBox",
-				errorPlacement: function(error, element) {
-					$("#messageBox").text("输入有误，请先更正。");
-					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-						error.appendTo(element.parent().parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-		});
-	</script>
+    <title>订单管理</title>
+    <meta name="decorator" content="default"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#name").focus();
+            $("#inputForm").validate({
+                submitHandler: function (form) {
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/sams/order/order/">订单列表</a></li>
-		<li class="active"><a href="${ctx}/sams/order/form?id=${order.id}">订单<shiro:hasPermission name="sams:order:order:edit">${not empty order.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sams:order:order:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
-	<form:form id="inputForm" modelAttribute="order" action="${ctx}/sams/order/save" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">名称：</label>
-			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">编号：</label>
-			<div class="controls">
-				<form:input path="code" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">总额：</label>
-			<div class="controls">
-				<form:input path="total" htmlEscape="false" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">备注：</label>
-			<div class="controls">
-				<form:input path="remark" htmlEscape="false" maxlength="500" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">销售主管审批：</label>
-			<div class="controls">
-				<form:input path="textA" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">财务主管审批：</label>
-			<div class="controls">
-				<form:input path="textB" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">领导审批：</label>
-			<div class="controls">
-				<form:input path="textC" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="form-actions">
-			<shiro:hasPermission name="sams:order:order:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-		</div>
-	</form:form>
+<ul class="nav nav-tabs">
+    <li><a href="${ctx}/sams/order/order/">订单列表</a></li>
+    <li class="active"><a href="${ctx}/sams/order/form?id=${order.id}">订单<shiro:hasPermission
+            name="sams:order:order:edit">${not empty order.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission
+            name="sams:order:order:edit">查看</shiro:lacksPermission></a></li>
+</ul>
+<br/>
+<form:form id="inputForm" modelAttribute="order" action="${ctx}/sams/order/save" method="post" class="form-horizontal">
+    <form:hidden path="id"/>
+    <form:hidden path="act.taskId"/>
+    <form:hidden path="act.taskName"/>
+    <form:hidden path="act.taskDefKey"/>
+    <form:hidden path="act.procInsId"/>
+    <form:hidden path="act.procDefId"/>
+    <form:hidden id="flag" path="act.flag"/>
+    <sys:message content="${message}"/>
+    <fieldset>
+        <legend>审批申请</legend>
+        <table class="table-form">
+        <tr>
+            <td class="tit">合同编号：</td>
+            <td>
+                <form:input path="code" htmlEscape="false" maxlength="64" class="input-xlarge required"/>
+            </td>
+            <td class="tit">合同日期：</td>
+            <td>
+                <input id="orderDate" name="createDate" type="text" readonly="readonly" maxlength="20" class="input-xlarge Wdate"
+                       value="<fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+            </td>
+        </tr>
+        <tr>
+
+            <td class="tit">部门</td>
+            <td>
+                <sys:treeselect id="office" name="office.id" value="${testAudit.office.id}" labelName="office.name"
+                                labelValue="${testAudit.office.name}"
+                                title="部门" url="/sys/office/treeData?type=2" cssClass="required recipient"
+                                cssStyle="width:220px"
+                                allowClear="true" notAllowSelectParent="true" smallBtn="false"/>
+            </td>
+            <td class="tit">销售</td>
+            <td>
+                <sys:treeselect id="saler" name="user.id" value="${testAudit.user.id}" labelName="user.name"
+                                labelValue="${testAudit.user.name}"
+                                title="用户" url="/sys/office/treeData?type=3&officeId=1" cssClass="input-xlarge required recipient"
+                                cssStyle="width:220px"
+                                allowClear="true" notAllowSelectParent="true" smallBtn="false"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="tit">客户</td>
+            <td>
+                <form:input path="customer.name" htmlEscape="false" maxlength="64" class="input-xlarge required"/>
+            </td>
+            <td class="tit">手机号：</td>
+            <td>
+                <form:input path="customer.phone" htmlEscape="false" maxlength="64" class="input-xlarge required"/>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td class="tit">总金额：</td>
+            <td colspan="3">
+                <form:input path="remark" htmlEscape="false" maxlength="500" class="input-xlarge"/>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tit">销售主管意见：</td>
+            <td colspan="3">
+                ${textA}
+            </td>
+        </tr>
+        <tr>
+            <td class="tit">财务主管意见：</td>
+            <td colspan="3">
+                ${textB}
+            </td>
+        </tr>
+        <tr>
+            <td class="tit">领导意见:</td>
+            <td colspan="3">
+                ${textC}
+            </td>
+        </tr>
+
+        </table>
+    </fieldset>
+    <div class="form-actions">
+        <shiro:hasPermission name="oa:testAudit:edit">
+            <input id="btnSubmit" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
+            <c:if test="${not empty order.id}">
+                <input id="btnSubmit2" class="btn btn-inverse" type="submit" value="销毁申请"
+                       onclick="$('#flag').val('no')"/>&nbsp;
+            </c:if>
+        </shiro:hasPermission>
+        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+    </div>
+    <c:if test="${not empty order.id}">
+        <act:histoicFlow procInsId="${order.act.procInsId}"/>
+    </c:if>
+</form:form>
 </body>
 </html>

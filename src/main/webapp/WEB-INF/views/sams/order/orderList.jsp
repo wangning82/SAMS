@@ -18,10 +18,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/sams/order/order/">订单列表</a></li>
-		<shiro:hasPermission name="sams:order:order:edit"><li><a href="${ctx}/sams/order/order/form">订单添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/sams/order">订单列表</a></li>
+		<shiro:hasPermission name="sams:order:order:edit"><li><a href="${ctx}/sams/order/form">订单添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="order" action="${ctx}/sams/order/order/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="order" action="${ctx}/sams/order/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -51,8 +51,8 @@
 					<fmt:formatDate value="${order.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="sams:order:order:edit"><td>
-    				<a href="${ctx}/sams/order/order/form?id=${order.id}">修改</a>
-					<a href="${ctx}/sams/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单吗？', this.href)">删除</a>
+    				<a href="${ctx}/sams/order/form?id=${order.id}">修改</a>
+					<a href="${ctx}/sams/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

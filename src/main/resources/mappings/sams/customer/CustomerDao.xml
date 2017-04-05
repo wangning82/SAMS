@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sams.customer.dao.CustomerDao">
+
+    <sql id="customerColumns">
+		a.id AS "id",
+		a.login_name AS "loginName",
+		a.password AS "password",
+		a.no AS "no",
+		a.name AS "name",
+		a.email AS "email",
+		a.phone AS "phone",
+		a.mobile AS "mobile",
+		a.customer_type AS "customerType",
+		a.photo AS "photo",
+		a.login_ip AS "loginIp",
+		a.login_date AS "loginDate",
+		a.login_flag AS "loginFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.address AS "address",
+		a.sex AS "sex",
+		a.age AS "age",
+		a.married AS "married",
+		a.spouse
+_name AS "spouseName"
+	</sql>
+
+    <sql id="customerJoins">
+    </sql>
+
+    <select id="get" resultType="Customer">
+        SELECT
+        <include refid="customerColumns"/>
+        FROM sams_customer a
+        <include refid="customerJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Customer">
+        SELECT
+        <include refid="customerColumns"/>
+        FROM sams_customer a
+        <include refid="customerJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="name != null and name != ''">
+                AND a.name LIKE
+                <if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+            </if>
+            <if test="email != null and email != ''">
+                AND a.email = #{email}
+            </if>
+            <if test="customerType != null and customerType != ''">
+                AND a.customer_type = #{customerType}
+            </if>
+            <if test="address != null and address != ''">
+                AND a.address = #{address}
+            </if>
+            <if test="age != null and age != ''">
+                AND a.age = #{age}
+            </if>
+            <if test="married != null and married != ''">
+                AND a.married = #{married}
+            </if>
+            <if test="spouseName != null and spouseName != ''">
+                AND a.spouse
+                _name = #{spouseName}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="Customer">
+        SELECT
+        <include refid="customerColumns"/>
+        FROM sams_customer a
+        <include refid="customerJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--<insert id="insert">-->
+    <!--INSERT INTO sams_customer(-->
+    <!--id,-->
+    <!--login_name,-->
+    <!--password,-->
+    <!--no,-->
+    <!--name,-->
+    <!--email,-->
+    <!--phone,-->
+    <!--mobile,-->
+    <!--customer_type,-->
+    <!--photo,-->
+    <!--login_ip,-->
+    <!--login_date,-->
+    <!--login_flag,-->
+    <!--create_by,-->
+    <!--create_date,-->
+    <!--update_by,-->
+    <!--update_date,-->
+    <!--remarks,-->
+    <!--del_flag,-->
+    <!--address,-->
+    <!--sex,-->
+    <!--age,-->
+    <!--married,-->
+    <!--spouse-->
+    <!--_name-->
+    <!--) VALUES (-->
+    <!--#{id},-->
+    <!--#{loginName},-->
+    <!--#{password},-->
+    <!--#{no},-->
+    <!--#{name},-->
+    <!--#{email},-->
+    <!--#{phone},-->
+    <!--#{mobile},-->
+    <!--#{customerType},-->
+    <!--#{photo},-->
+    <!--#{loginIp},-->
+    <!--#{loginDate},-->
+    <!--#{loginFlag},-->
+    <!--#{createBy.id},-->
+    <!--#{createDate},-->
+    <!--#{updateBy.id},-->
+    <!--#{updateDate},-->
+    <!--#{remarks},-->
+    <!--#{delFlag},-->
+    <!--#{address},-->
+    <!--#{sex},-->
+    <!--#{age},-->
+    <!--#{married},-->
+    <!--#{spouseName}-->
+    <!--)-->
+    <!--</insert>-->
+    <insert id="insert">
+		insert into sams_customer (
+		id,
+		name,
+		phone,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		) value (
+		#{id},
+		#{name},
+		#{phone},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag}
+		)
+	</insert>
+    <update id="update">
+		UPDATE sams_customer SET 	
+			login_name = #{loginName},
+			password = #{password},
+			no = #{no},
+			name = #{name},
+			email = #{email},
+			phone = #{phone},
+			mobile = #{mobile},
+			customer_type = #{customerType},
+			photo = #{photo},
+			login_ip = #{loginIp},
+			login_date = #{loginDate},
+			login_flag = #{loginFlag},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			address = #{address},
+			sex = #{sex},
+			age = #{age},
+			married = #{married},
+			spouse
+_name = #{spouseName}
+		WHERE id = #{id}
+	</update>
+
+    <update id="delete">
+		UPDATE sams_customer SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

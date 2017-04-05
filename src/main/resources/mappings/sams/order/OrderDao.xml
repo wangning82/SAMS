@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sams.dao.order.OrderDao">
+<mapper namespace="com.sams.order.dao.OrderDao">
     
 	<sql id="orderColumns">
 		a.id AS "id",
@@ -15,7 +15,10 @@
 		a.remark AS "remark",
 		a.text_a AS "textA",
 		a.text_b AS "textB",
-		a.text_c AS "textC"
+		a.text_c AS "textC",
+		a.order_date AS "orderDate",
+		a.saler AS  "saler.id",
+		a.customer AS "customer.id"
 	</sql>
 	
 	<sql id="orderJoins">
@@ -85,7 +88,10 @@
 			remark,
 			text_a,
 			text_b,
-			text_c
+			text_c,
+			order_date,
+			saler,
+			customer
 		) VALUES (
 			#{id},
 			#{name},
@@ -99,7 +105,10 @@
 			#{remark},
 			#{textA},
 			#{textB},
-			#{textC}
+			#{textC},
+			#{orderDate},
+			#{saler.id},
+			#{customer.id}
 		)
 	</insert>
 	
@@ -113,7 +122,10 @@
 			remark = #{remark},
 			text_a = #{textA},
 			text_b = #{textB},
-			text_c = #{textC}
+			text_c = #{textC},
+			order_date = #{orderDate}
+			saler = #{saler.id}
+			customer = #{customer.id}
 		WHERE id = #{id}
 	</update>
 	

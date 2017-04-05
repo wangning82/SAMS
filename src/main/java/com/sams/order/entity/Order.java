@@ -1,28 +1,58 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.sams.entity.order;
+package com.sams.order.entity;
 
+import com.sams.customer.entity.Customer;
+import com.thinkgem.jeesite.common.persistence.ActEntity;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
-import com.thinkgem.jeesite.common.persistence.DataEntity;
+import java.util.Date;
 
 /**
  * 订单管理Entity
  * @author wangqingxiang
  * @version 2017-03-30
  */
-public class Order extends DataEntity<Order> {
+public class Order extends ActEntity<Order> {
 	
 	private static final long serialVersionUID = 1L;
 	private String name;		// 名称
+	private Date orderDate;		//合同日期
+	private User saler;			//销售
+	private Customer customer;	//客户
 	private String code;		// 编号
 	private String total;		// 总额
 	private String remark;		// 备注
 	private String textA;		// 销售主管审批
 	private String textB;		// 财务主管审批
 	private String textC;		// 领导审批
-	
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public User getSaler() {
+		return saler;
+	}
+
+	public void setSaler(User saler) {
+		this.saler = saler;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
 	public Order() {
 		super();
 	}
