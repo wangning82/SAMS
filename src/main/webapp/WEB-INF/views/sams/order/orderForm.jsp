@@ -105,19 +105,19 @@
             <tr>
                 <td class="tit">销售主管意见：</td>
                 <td colspan="3">
-                        ${textA}
+                        ${order.textA}
                 </td>
             </tr>
             <tr>
                 <td class="tit">财务主管意见：</td>
                 <td colspan="3">
-                        ${textB}
+                        ${order.textB}
                 </td>
             </tr>
             <tr>
                 <td class="tit">领导意见:</td>
                 <td colspan="3">
-                        ${textC}
+                        ${order.textC}
                 </td>
             </tr>
 
@@ -131,7 +131,7 @@
                        onclick="$('#flag').val('no')"/>&nbsp;
             </c:if>
         </shiro:hasPermission>
-        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+        <%--<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>--%>
     </div>
     <c:if test="${not empty order.id}">
         <act:histoicFlow procInsId="${order.act.procInsId}"/>

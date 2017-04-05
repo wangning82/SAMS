@@ -27,11 +27,6 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li><a href="${ctx}/sams/order/">订单列表</a></li>
-    <li class="active"><a
-            href="${ctx}/act/task/form?procDefId=order:2:7b4a43c042354c2b9cd949a909182b2e">订单<shiro:hasPermission
-            name="sams:order:order:edit">${not empty order.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission
-            name="sams:order:order:edit">查看</shiro:lacksPermission></a></li>
 </ul>
 <br/>
 <form:form id="inputForm" modelAttribute="order" action="${ctx}/sams/order/save" method="post" class="form-horizontal">
@@ -91,6 +86,13 @@
             <tr>
                 <td class="tit">总金额：</td>
                 <td colspan="3">
+                    <form:input path="total" htmlEscape="false" maxlength="500" class="input-xlarge"/>
+                </td>
+
+            </tr>
+            <tr>
+                <td class="tit">备注：</td>
+                <td colspan="3">
                     <form:input path="remark" htmlEscape="false" maxlength="500" class="input-xlarge"/>
                 </td>
 
@@ -98,19 +100,19 @@
             <tr>
                 <td class="tit">销售主管意见：</td>
                 <td colspan="3">
-                        ${textA}
+                        ${order.textA}
                 </td>
             </tr>
             <tr>
                 <td class="tit">财务主管意见：</td>
                 <td colspan="3">
-                        ${textB}
+                        ${order.textB}
                 </td>
             </tr>
             <tr>
                 <td class="tit">领导意见:</td>
                 <td colspan="3">
-                        ${textC}
+                        ${order.textC}
                 </td>
             </tr>
 

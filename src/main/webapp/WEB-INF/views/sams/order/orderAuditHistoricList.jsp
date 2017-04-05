@@ -9,16 +9,16 @@
 
 		});
 		function page(n,s){
-			location = '${ctx}/act/task/historic/?pageNo='+n+'&pageSize='+s;
+			location = '${ctx}/sams/order/historic/?pageNo='+n+'&pageSize='+s;
 		}
 	</script>
 </head>
 <body>
 <ul class="nav nav-tabs">
-	<li><a href="${ctx}/act/task/todo/">待办任务</a></li>
-	<li class="active"><a href="${ctx}/act/task/historic/">已办任务</a></li>
+	<li><a href="${ctx}/sams/order/todo/">待办任务</a></li>
+	<li class="active"><a href="${ctx}/sams/order/historic/">已办任务</a></li>
 </ul>
-<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/historic/" method="get" class="breadcrumb form-search">
+<form:form id="searchForm" modelAttribute="act" action="${ctx}/sams/order/historic/" method="get" class="breadcrumb form-search">
 	<div>
 		<label>流程类型：&nbsp;</label>
 		<form:select path="procDefKey" class="input-medium">
@@ -59,7 +59,7 @@
 		<c:set var="status" value="${act.status}" />
 		<tr>
 			<td>
-				<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 60)}</a>
+				<a href="${ctx}/act/task/form?id=${id}&taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 60)}</a>
 			</td>
 			<td>
 				<a target="_blank" href="${pageContext.request.contextPath}/act/rest/diagram-viewer?processDefinitionId=${task.processDefinitionId}&processInstanceId=${task.processInstanceId}">${task.name}</a><%--
@@ -71,7 +71,7 @@
 			<td><b title='流程版本号'>V: ${procDef.version}</b></td>
 			<td><fmt:formatDate value="${task.endTime}" type="both"/></td>
 			<td>
-				<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">详情</a>
+				<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">任务办理</a>
 			</td>
 		</tr>
 	</c:forEach>

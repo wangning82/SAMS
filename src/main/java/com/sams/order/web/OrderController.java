@@ -79,7 +79,7 @@ public class OrderController extends BaseController {
 				view = "orderForm";
 			}
 			// 审核环节
-			else if ("audit".equals(taskDefKey)){
+			else if ("audit1".equals(taskDefKey)){
 				view = "orderAudit";
 //				String formKey = "/oa/testAudit";
 //				return "redirect:" + ActUtils.getFormUrl(formKey, testAudit.getAct());
@@ -98,13 +98,6 @@ public class OrderController extends BaseController {
 				view = "orderAudit";
 			}
 		}
-
-
-
-
-
-
-
 		return "/sams/order/"+view;
 	}
 	/**
@@ -124,8 +117,7 @@ public class OrderController extends BaseController {
 
 	/**
 	 * 获取已办任务
-	 * @param page
-	 * @param procDefKey 流程定义标识
+	 * @param  act
 	 * @return
 	 */
 	@RequestMapping(value = "historic")
@@ -147,7 +139,17 @@ public class OrderController extends BaseController {
 		}
 		orderService.save(order);
 		addMessage(redirectAttributes, "保存订单成功");
-		return "redirect:"+Global.getAdminPath()+"/sams/order/?repage";
+		return "redirect:"+Global.getAdminPath()+"/sams/order/form?repage";
+	}
+	@RequiresPermissions("sams:order:order:edit")
+	@RequestMapping(value = "auditSave")
+	public String auditSave(Order order, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, order)){
+			return form(order, model);
+		}
+		orderService.auditSave(order);
+		addMessage(redirectAttributes, "保存订单成功");
+		return "redirect:"+Global.getAdminPath()+"/sams/order/todo?repage";
 	}
 	
 	@RequiresPermissions("sams:order:order:edit")

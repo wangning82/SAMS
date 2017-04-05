@@ -20,6 +20,7 @@
 		a.order_date AS "orderDate",
 		a.saler AS  "saler.id",
 		d.NAME  as "saler.name",
+		e.name as "saler.office.name",
 		a.customer AS "customer.id",
 		c.name as "customer.name",
 		c.phone as "customer.phone"
@@ -29,6 +30,7 @@
 		left join SYS_USER  b on a.create_by =b.ID
 		left join sams_customer c on a.customer=c.ID
 		left join SYS_USER  d on a.saler=d.id
+		left join sys_office e on d.office_id=e.id
 	</sql>
     
 	<select id="get" resultType="Order">
@@ -130,8 +132,8 @@
 			text_a = #{textA},
 			text_b = #{textB},
 			text_c = #{textC},
-			order_date = #{orderDate}
-			saler = #{saler.id}
+			order_date = #{orderDate},
+			saler = #{saler.id},
 			customer = #{customer.id}
 		WHERE id = #{id}
 	</update>

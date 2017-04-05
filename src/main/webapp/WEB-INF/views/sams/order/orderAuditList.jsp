@@ -25,10 +25,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/act/task/todo/">待办任务</a></li>
-		<li><a href="${ctx}/act/task/historic/">已办任务</a></li>
+		<li class="active"><a href="${ctx}/sams/order/todo/">待办任务</a></li>
+		<li><a href="${ctx}/sams/order/historic/">已办任务</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/todo/" method="get" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="act" action="${ctx}/sams/order/todo/" method="get" class="breadcrumb form-search">
 		<div>
 			<label>流程类型：&nbsp;</label>
 			<form:select path="procDefKey" class="input-medium">
