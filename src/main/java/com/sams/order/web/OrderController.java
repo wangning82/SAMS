@@ -9,6 +9,9 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.act.entity.Act;
+import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 订单管理Controller
@@ -29,7 +33,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "${adminPath}/sams/order")
 public class OrderController extends BaseController {
-
+	@Autowired
+	private ActTaskService actTaskService;
 	@Autowired
 	private OrderService orderService;
 	
@@ -57,7 +62,81 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(Order order, Model model) {
 		model.addAttribute("order", order);
-		return "/sams/order/orderForm";
+		String view = "orderForm";
+
+		// 查看审批申请单
+		if (org.apache.commons.lang3.StringUtils.isNotBlank(order.getId())){//.getAct().getProcInsId())){
+
+			// 环节编号
+			String taskDefKey = order.getAct().getTaskDefKey();
+
+			// 查看工单
+			if(order.getAct().isFinishTask()){
+				view = "orderView";
+			}
+			// 修改环节
+			else if ("modify".equals(taskDefKey)){
+				view = "orderForm";
+			}
+			// 审核环节
+			else if ("audit".equals(taskDefKey)){
+				view = "orderAudit";
+//				String formKey = "/oa/testAudit";
+//				return "redirect:" + ActUtils.getFormUrl(formKey, testAudit.getAct());
+			}
+			// 审核环节2
+			else if ("audit2".equals(taskDefKey)){
+				view = "orderAudit";
+			}
+			// 审核环节3
+			else if ("audit3".equals(taskDefKey)){
+				view = "orderAudit";
+			}
+
+			// 兑现环节
+			else if ("apply_end".equals(taskDefKey)){
+				view = "orderAudit";
+			}
+		}
+
+
+
+
+
+
+
+		return "/sams/order/"+view;
+	}
+	/**
+	 * 获取待办列表
+	 * @param
+	 * @return
+	 */
+	@RequestMapping(value = {"todo", ""})
+	public String todoList(Act act, HttpServletResponse response, Model model) throws Exception {
+		List<Act> list = actTaskService.todoList(act);
+		model.addAttribute("list", list);
+		if (UserUtils.getPrincipal().isMobileLogin()){
+			return renderString(response, list);
+		}
+		return "/sams/order/orderAuditList";
+	}
+
+	/**
+	 * 获取已办任务
+	 * @param page
+	 * @param procDefKey 流程定义标识
+	 * @return
+	 */
+	@RequestMapping(value = "historic")
+	public String historicList(Act act, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		Page<Act> page = new Page<Act>(request, response);
+		page = actTaskService.historicList(page, act);
+		model.addAttribute("page", page);
+		if (UserUtils.getPrincipal().isMobileLogin()){
+			return renderString(response, page);
+		}
+		return "/sams/order/orderAuditHistoricList";
 	}
 
 	@RequiresPermissions("sams:order:order:edit")
@@ -68,7 +147,7 @@ public class OrderController extends BaseController {
 		}
 		orderService.save(order);
 		addMessage(redirectAttributes, "保存订单成功");
-		return "/sams/order/orderList";
+		return "redirect:"+Global.getAdminPath()+"/sams/order/?repage";
 	}
 	
 	@RequiresPermissions("sams:order:order:edit")
@@ -76,7 +155,7 @@ public class OrderController extends BaseController {
 	public String delete(Order order, RedirectAttributes redirectAttributes) {
 		orderService.delete(order);
 		addMessage(redirectAttributes, "删除订单成功");
-		return "redirect:"+Global.getAdminPath()+"/sams/order/order/?repage";
+		return "redirect:"+Global.getAdminPath()+"/sams/order/?repage";
 	}
 
 }

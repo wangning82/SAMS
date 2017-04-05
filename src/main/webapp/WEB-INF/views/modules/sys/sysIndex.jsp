@@ -105,8 +105,20 @@
 							return addTab($(this)); // </c:if>
 						});
 						// 默认选中第一个菜单
-						//$(menuId + " .accordion-body a:first i").click();
-						//$(menuId + " .accordion-body li:first li:first a:first i").click();
+//						$(".jericho_tab").show();
+						$("#mainFrame").hide();
+						$.fn.jerichoTab.addTab({
+							tabFirer: $("#mainFrame"),
+							title: "首页",
+							closeable: true,
+							data: {
+								dataType: 'iframe',
+								dataLink: "${ctx}/sys/user/info"
+							}
+						}).loadData(true);
+// 						$(menuId + " .accordion-body a:first i").click();
+// 						$(menuId + " .accordion-body li:first li:first a:first i").click();
+//					});
 					});
 				}
 				// 大小宽度调整
@@ -220,9 +232,9 @@
 							<li><a href="${ctx}/sys/user/info" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
 							<li><a href="${ctx}/sys/user/modifyPwd" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
 							<li><a href="${ctx}/oa/oaNotify/self" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide"></span></a></li>
-							<li style="display: none;">
-								<a href="${ctx}/taluser/talUser/list" target="mainFrame" onclick="javascript:addTab($(this), true, false);"><i class="icon-lock"></i>&nbsp; 首页</a>
-							</li>
+							<%--<li style="display: none;">--%>
+								<%--<a href="${ctx}/taluser/talUser/list" target="mainFrame" onclick="javascript:addTab($(this), true, false);"><i class="icon-lock"></i>&nbsp; 首页</a>--%>
+							<%--</li>--%>
 						</ul>
 						</li>
 					</div>

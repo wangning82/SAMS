@@ -27,8 +27,12 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-
-   </ul>
+    <li><a href="${ctx}/sams/order/">订单列表</a></li>
+    <li class="active"><a
+            href="${ctx}/act/task/form?procDefId=order:2:7b4a43c042354c2b9cd949a909182b2e">订单<shiro:hasPermission
+            name="sams:order:order:edit">${not empty order.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission
+            name="sams:order:order:edit">查看</shiro:lacksPermission></a></li>
+</ul>
 <br/>
 <form:form id="inputForm" modelAttribute="order" action="${ctx}/sams/order/save" method="post" class="form-horizontal">
     <form:hidden path="id"/>
@@ -47,20 +51,14 @@
 
                 <td class="tit">销售：</td>
                 <td>
-
-
                     <form:input path="saler.name" htmlEscape="false" maxlength="64"
-                                class="input-xlarge required" value="${fns:getUser().name}" readonly="true"/>
-                    <form:hidden path="saler.id" value="${fns:getUser().id}"/>
-
-
+                                class="input-xlarge required"  readonly="true"/>
+                    <form:hidden path="saler.id"/>
                 </td>
                 <td class="tit">部门：</td>
                 <td>
-
                     <form:input path="saler.office.name" htmlEscape="false" maxlength="64"
-                                class="input-xlarge" value="${fns:getUser().office.name}" readonly="true"/>
-
+                                class="input-xlarge"  readonly="true"/>
                 </td>
             </tr>
             <tr>
@@ -70,7 +68,7 @@
                 </td>
                 <td class="tit">合同日期：</td>
                 <td>
-                    <input id="orderDate" name="orderDate" type="text" readonly="readonly" maxlength="20"
+                    <input id="orderDate" name="createDate" type="text" readonly="readonly" maxlength="20"
                            class="input-xlarge Wdate"
                            value="<fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
                            onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
@@ -92,15 +90,9 @@
             <tr>
                 <td class="tit">总金额：</td>
                 <td colspan="3">
-                    <form:input path="total" htmlEscape="false" maxlength="500" class="input-xlarge"/>
+                    <form:input path="remark" htmlEscape="false" maxlength="500" class="input-xlarge"/>
                 </td>
 
-            </tr>
-            <tr>
-                <td class="tit">备注：</td>
-                <td colspan="3">
-                    <form:textarea path="remark" htmlEscape="false" maxlength="500" class="input-xlarge"/>
-                </td>
             </tr>
             <tr>
                 <td class="tit">销售主管意见：</td>
@@ -120,22 +112,28 @@
                         ${textC}
                 </td>
             </tr>
+            <tr>
+                <td class="tit">您的意见</td>
+                <td colspan="5">
+                    <form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/>
+                </td>
+            </tr>
 
         </table>
     </fieldset>
     <div class="form-actions">
-        <shiro:hasPermission name="oa:testAudit:edit">
-            <input id="btnSubmit" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
-            <c:if test="${not empty order.id}">
-                <input id="btnSubmit2" class="btn btn-inverse" type="submit" value="销毁申请"
-                       onclick="$('#flag').val('no')"/>&nbsp;
+        <shiro:hasPermission name="oa:order:edit">
+            <c:if test="${order.act.taskDefKey eq 'apply_end'}">
+                <input id="btnSubmit" class="btn btn-primary" type="submit" value="兑 现" onclick="$('#flag').val('yes')"/>&nbsp;
+            </c:if>
+            <c:if test="${order.act.taskDefKey ne 'apply_end'}">
+                <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+                <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
             </c:if>
         </shiro:hasPermission>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
-    <c:if test="${not empty order.id}">
-        <act:histoicFlow procInsId="${order.act.procInsId}"/>
-    </c:if>
+    <act:histoicFlow procInsId="${order.act.procInsId}"/>
 </form:form>
 </body>
 </html>

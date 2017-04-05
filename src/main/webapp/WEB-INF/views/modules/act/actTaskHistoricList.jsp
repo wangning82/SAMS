@@ -9,17 +9,16 @@
 			
 		});
 		function page(n,s){
-        	location = '${ctx}/act/task/historic/?pageNo='+n+'&pageSize='+s;
+        	location = '${ctx}/sams/order/historic/?pageNo='+n+'&pageSize='+s;
         }
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/act/task/todo/">待办任务</a></li>
-		<li class="active"><a href="${ctx}/act/task/historic/">已办任务</a></li>
-		<li><a href="${ctx}/act/task/process/">新建任务</a></li>
+		<li><a href="${ctx}/sams/order/todo/">待办任务</a></li>
+		<li class="active"><a href="${ctx}/sams/order/historic/">已办任务</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/historic/" method="get" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="act" action="${ctx}/sams/order/historic/" method="get" class="breadcrumb form-search">
 		<div>
 			<label>流程类型：&nbsp;</label>
 			<form:select path="procDefKey" class="input-medium">
