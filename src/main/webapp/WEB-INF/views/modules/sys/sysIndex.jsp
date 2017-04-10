@@ -4,33 +4,47 @@
 <head>
 	<title>${fns:getConfig('productName')}</title>
 	<meta name="decorator" content="blank"/><c:set var="tabmode" value="${empty cookie.tabmode.value ? '1' : cookie.tabmode.value}"/>
-    <c:if test="${tabmode eq '1'}"><link rel="Stylesheet" href="${ctxStatic}/jerichotab/css/jquery.jerichotab.css" />
-    <script type="text/javascript" src="${ctxStatic}/jerichotab/js/jquery.jerichotab.js"></script></c:if>
-     <link href="${ctxStatic}/bootstrap/2.3.1/css_cerulean/index.css" type="text/css" rel="stylesheet" />
-   
+	<c:if test="${tabmode eq '1'}"><link rel="Stylesheet" href="${ctxStatic}/jerichotab/css/jquery.jerichotab.css" />
+		<script type="text/javascript" src="${ctxStatic}/jerichotab/js/jquery.jerichotab.js"></script></c:if>
+	<link href="${ctxStatic}/bootstrap/2.3.1/css_cerulean/index.css" type="text/css" rel="stylesheet" />
+
 	<style type="text/css">
 		#main {padding:0;margin:0;} #main .container-fluid{padding:0 4px 0 6px;}
 		.img-circle {
-    border-bottom-left-radius: 50%;
-    border-bottom-right-radius: 50%;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-     height: 80px;
-      width: 80px;}
+			border-bottom-left-radius: 50%;
+			border-bottom-right-radius: 50%;
+			border-top-left-radius: 50%;
+			border-top-right-radius: 50%;
+			height: 80px;
+			width: 80px;
+		}
 		#header {margin:0 0 8px;position:static;} #header li {font-size:14px;_font-size:12px;}
 		#header .brand {font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:26px;padding-left:33px;line-height: 60px}
-		#footer {margin:8px 0 0 0;padding:3px 0 0 0;font-size:11px;text-align:center;border-top:2px solid #0663A2;}
-		#footer, #footer a {color:#999;} #left{overflow-x:hidden;overflow-y:auto; background:#1E90FF;} #left .collapse{position:static;}
-		#userControl>li>a{/*color:#fff;*/text-shadow:none;} #userControl>li>a:hover, #user #userControl>li.open>a{background:transparent;}
+		#footer {margin:8px 0 0 0;padding:3px 0 0 0;font-size:11px;text-align:center;border-top:2px solid #006cb7; background-color: #006cb7;}
+		#footer, #footer a {color:#f5f5f5;}
+		#left{overflow-x:hidden;overflow-y:auto; background:#e2f1f8;}
+		#left .collapse{position:static;}
+		#userControl>li>a{/*color:#fff;*/text-shadow:none;}
+		#userControl>li>a:hover, #user #userControl>li.open>a{background:transparent;}
+		.accordion-heading{ background: #4884b6;}/*一级菜单*/
+		.accordion-inner{ background: #62b6e0;}/*二级菜单*/
+		.tab_text{ color:#0b0b0b;}
+		.jericho_tab .tab_pages{ background-color: #04a2e9 !important;}
+		.jericho_tab .tab_pages ul li{ background-color:#fff !important;}
+		.accordion-heading a:hover, .dropdown a:hover{ background-color:#129BD8;}
+		.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus{
+			background-color:#7c94bd;/*浅绿色*/
+		}
+
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			// <c:if test="${tabmode eq '1'}"> 初始化页签
 			$.fn.initJerichoTab({
-                renderTo: '#right', uniqueId: 'jerichotab',
-                contentCss: { 'height': $('#right').height() - tabTitleHeight },
-                tabs: [], loadOnce: true, tabWidth: 110, titleHeight: tabTitleHeight
-            });//</c:if>
+				renderTo: '#right', uniqueId: 'jerichotab',
+				contentCss: { 'height': $('#right').height() - tabTitleHeight },
+				tabs: [], loadOnce: true, tabWidth: 110, titleHeight: tabTitleHeight
+			});//</c:if>
 			// 绑定菜单单击事件
 			$("#menu a.menu").click(function(){
 				// 一级菜单焦点
@@ -105,20 +119,8 @@
 							return addTab($(this)); // </c:if>
 						});
 						// 默认选中第一个菜单
-//						$(".jericho_tab").show();
-						$("#mainFrame").hide();
-						$.fn.jerichoTab.addTab({
-							tabFirer: $("#mainFrame"),
-							title: "首页",
-							closeable: true,
-							data: {
-								dataType: 'iframe',
-								dataLink: "${ctx}/sys/user/info"
-							}
-						}).loadData(true);
-// 						$(menuId + " .accordion-body a:first i").click();
-// 						$(menuId + " .accordion-body li:first li:first a:first i").click();
-//					});
+						//$(menuId + " .accordion-body a:first i").click();
+						//$(menuId + " .accordion-body li:first li:first a:first i").click();
 					});
 				}
 				// 大小宽度调整
@@ -157,58 +159,56 @@
 			$(".jericho_tab").show();
 			$("#mainFrame").hide();
 			$.fn.jerichoTab.addTab({
-                tabFirer: $this,
-                title: $this.text(),
-                closeable: closeable == null ? true : false,
-                data: {
-                    dataType: 'iframe',
-                    dataLink: $this.attr('href')
-                }
-            }).loadData(refresh);
+				tabFirer: $this,
+				title: $this.text(),
+				closeable: closeable == null ? true : false,
+				data: {
+					dataType: 'iframe',
+					dataLink: $this.attr('href')
+				}
+			}).loadData(refresh);
 			return false;
 		}// </c:if>
 	</script>
 </head>
 <body>
-	<div id="main">
-		<div id="header" class="navbar navbar-fixed-top ">
-			<div class="navbar-inner">
-				<div class="dgs13" >
-                    <div class="logo"><img src="${ctxStatic}/sams/images/logo.png"></div>
-                    <div  class="anniu1"><a href="${ctx}/logout"><img src="${ctxStatic}/sams/images/anniu1.png"></a></div>
-                    <div class=" clear"></div>
-                
-                </div>
-			
+<div id="main" style="background: #f5f5f5;">
+	<div id="header" class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<div class="dgs13" >
+				<div class="logo"><img src="${ctxStatic}/sams/images/f_logo.png"></div>
+				<div  class="anniu1"><a href="${ctx}/logout"><img src="${ctxStatic}/sams/images/btuichu.png"></a></div>
+				<div class=" clear"></div>
 
-				<%-- <c:if test="${cookie.theme.value eq 'cerulean'}">
-					<div id="user" style="position:absolute;top:0;right:0;"></div>
-					<div id="logo" style="background:url(${ctxStatic}/images/logo_bg.jpg) right repeat-x;width:100%;">
-						<div style="background:url(${ctxStatic}/images/logo.jpg) left no-repeat;width:100%;height:70px;"></div>
-					</div>
-					<script type="text/javascript">
-						$("#productName").hide();$("#user").html($("#userControl"));$("#header").prepend($("#user, #logo"));
-					</script>
-				</c:if> --%>
-				<div class="nav-collapse">
-					<ul id="menu" class="nav" style="*white-space:nowrap;float:none;">
-						<c:set var="firstMenu" value="true"/>
-						<c:forEach items="${fns:getMenuList()}" var="menu" varStatus="idxStatus">
-							<c:if test="${menu.parent.id eq '1'&&menu.isShow eq '1'}">
-								<li class="menu ${not empty firstMenu && firstMenu ? ' active' : ''}">
-									<c:if test="${empty menu.href}">
-										<a class="menu" style="display: none;" href="javascript:" data-href="${ctx}/sys/menu/tree?parentId=${menu.id}" data-id="${menu.id}"><span>${menu.name}</span></a>
-									</c:if>
-									<c:if test="${not empty menu.href}">
-										<a class="menu" style="display: none;" href="${fn:indexOf(menu.href, '://') eq -1 ? ctx : ''}${menu.href}" data-id="${menu.id}" target="mainFrame"><span>${menu.name}</span></a>
-									</c:if>
-								</li>
-								<c:if test="${firstMenu}">
-									<c:set var="firstMenuId" value="${menu.id}"/>
+			</div>
+			<%-- <c:if test="${cookie.theme.value eq 'cerulean'}">
+                <div id="user" style="position:absolute;top:0;right:0;"></div>
+                <div id="logo" style="background:url(${ctxStatic}/images/logo_bg.jpg) right repeat-x;width:100%;">
+                    <div style="background:url(${ctxStatic}/images/logo.jpg) left no-repeat;width:100%;height:70px;"></div>
+                </div>
+                <script type="text/javascript">
+                    $("#productName").hide();$("#user").html($("#userControl"));$("#header").prepend($("#user, #logo"));
+                </script>
+            </c:if> --%>
+			<div class="nav-collapse">
+				<ul id="menu" class="nav" style="*white-space:nowrap;float:none;">
+					<c:set var="firstMenu" value="true"/>
+					<c:forEach items="${fns:getMenuList()}" var="menu" varStatus="idxStatus">
+						<c:if test="${menu.parent.id eq '1'&&menu.isShow eq '1'}">
+							<li class="menu ${not empty firstMenu && firstMenu ? ' active' : ''}">
+								<c:if test="${empty menu.href}">
+									<a class="menu" style="display: none;" href="javascript:" data-href="${ctx}/sys/menu/tree?parentId=${menu.id}" data-id="${menu.id}"><span>${menu.name}</span></a>
 								</c:if>
-								<c:set var="firstMenu" value="false"/>
+								<c:if test="${not empty menu.href}">
+									<a class="menu" style="display: none;" href="${fn:indexOf(menu.href, '://') eq -1 ? ctx : ''}${menu.href}" data-id="${menu.id}" target="mainFrame"><span>${menu.name}</span></a>
+								</c:if>
+							</li>
+							<c:if test="${firstMenu}">
+								<c:set var="firstMenuId" value="${menu.id}"/>
 							</c:if>
-						</c:forEach><%--
+							<c:set var="firstMenu" value="false"/>
+						</c:if>
+					</c:forEach><%--
 						<shiro:hasPermission name="cms:site:select">
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">${fnc:getSite(fnc:getCurrentSiteId()).name}<b class="caret"></b></a>
@@ -217,69 +217,69 @@
 							</ul>
 						</li>
 						</shiro:hasPermission> --%>
-					</ul>
-				</div><!--/.nav-collapse -->
-			</div>
-	    </div>
-	    <div class="container-fluid">
-			<div id="content" class="row-fluid">
-				<div id="left">
-					<div style="background: url(${ctxStatic}/sams/images/touxiang.jpg);background-size: cover;height:120px;width: 160px"></div>
-					<div style="padding-left: 30px;height: 30px;background-color: ivory" >
-						<li id="userInfo" class="dropdown">
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div id="content" class="row-fluid">
+			<div id="left">
+				<div style="background: url(${ctxStatic}/sams/images/touxiang.jpg);background-size: cover;height:120px;width: 160px"></div>
+				<div style="padding-left: 30px;height: 30px;background-color: ivory" >
+					<li id="userInfo" class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, ${fns:getUser().name}&nbsp;<span id="notifyNum" class="label label-info hide"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="${ctx}/sys/user/info" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
 							<li><a href="${ctx}/sys/user/modifyPwd" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
 							<li><a href="${ctx}/oa/oaNotify/self" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide"></span></a></li>
-							<%--<li style="display: none;">--%>
-								<%--<a href="${ctx}/taluser/talUser/list" target="mainFrame" onclick="javascript:addTab($(this), true, false);"><i class="icon-lock"></i>&nbsp; 首页</a>--%>
-							<%--</li>--%>
+							<li style="display: none;">
+								<a href="${ctx}/taluser/talUser/list" target="mainFrame" onclick="javascript:addTab($(this), true, false);"><i class="icon-lock"></i>&nbsp; 首页</a>
+							</li>
 						</ul>
-						</li>
-					</div>
+					</li>
+				</div>
 				<%--
 					<iframe id="menuFrame" name="menuFrame" src="" style="overflow:visible;" scrolling="yes" frameborder="no" width="100%" height="650"></iframe> --%>
-				</div>
-				<div id="openClose" class="close">&nbsp;</div>
-
-				<div id="right">
-					<iframe id="mainFrame" name="mainFrame" src="" style="overflow:visible;" scrolling="yes" frameborder="no" width="100%" height="650"></iframe>
-				</div>
 			</div>
-		    <div id="footer" class="row-fluid" style="background-color: #1a67e2">
-	           技术支持： ${fns:getConfig('productName')} &nbsp;&nbsp;&nbsp;版权所有：  ${fns:getConfig('version')}
+			<div id="openClose" class="close">&nbsp;</div>
+
+			<div id="right">
+				<iframe id="mainFrame" name="mainFrame" src="" style="overflow:visible;" scrolling="yes" frameborder="no" width="100%" height="650"></iframe>
 			</div>
 		</div>
+		<div id="footer" class="row-fluid">
+			技术支持： ${fns:getConfig('productName')} &nbsp;&nbsp;&nbsp;版权所有：  ${fns:getConfig('version')}
+		</div>
 	</div>
-	<script type="text/javascript"> 
-		var leftWidth = 160; // 左侧窗口大小
-		var tabTitleHeight = 33; // 页签的高度
-		var htmlObj = $("html"), mainObj = $("#main");
-		var headerObj = $("#header"), footerObj = $("#footer");
-		var frameObj = $("#left, #openClose, #right, #right iframe");
-		function wSize(){
-			var minHeight = 500, minWidth = 980;
-			var strs = getWindowSize().toString().split(",");
-			htmlObj.css({"overflow-x":strs[1] < minWidth ? "auto" : "hidden", "overflow-y":strs[0] < minHeight ? "auto" : "hidden"});
-			mainObj.css("width",strs[1] < minWidth ? minWidth - 10 : "auto");
-			frameObj.height((strs[0] < minHeight ? minHeight : strs[0]) - headerObj.height() - footerObj.height() - (strs[1] < minWidth ? 42 : 28));
-			$("#openClose").height($("#openClose").height() - 5);// <c:if test="${tabmode eq '1'}"> 
-			$(".jericho_tab iframe").height($("#right").height() - tabTitleHeight); // </c:if>
-			wSizeWidth();
+</div>
+<script type="text/javascript">
+	var leftWidth = 160; // 左侧窗口大小
+	var tabTitleHeight = 33; // 页签的高度
+	var htmlObj = $("html"), mainObj = $("#main");
+	var headerObj = $("#header"), footerObj = $("#footer");
+	var frameObj = $("#left, #openClose, #right, #right iframe");
+	function wSize(){
+		var minHeight = 500, minWidth = 980;
+		var strs = getWindowSize().toString().split(",");
+		htmlObj.css({"overflow-x":strs[1] < minWidth ? "auto" : "hidden", "overflow-y":strs[0] < minHeight ? "auto" : "hidden"});
+		mainObj.css("width",strs[1] < minWidth ? minWidth - 10 : "auto");
+		frameObj.height((strs[0] < minHeight ? minHeight : strs[0]) - headerObj.height() - footerObj.height() - (strs[1] < minWidth ? 42 : 28));
+		$("#openClose").height($("#openClose").height() - 5);// <c:if test="${tabmode eq '1'}">
+		$(".jericho_tab iframe").height($("#right").height() - tabTitleHeight); // </c:if>
+		wSizeWidth();
+	}
+	function wSizeWidth(){
+		if (!$("#openClose").is(":hidden")){
+			var leftWidth = ($("#left").width() < 0 ? 0 : $("#left").width());
+			$("#right").width($("#content").width()- leftWidth - $("#openClose").width() -5);
+		}else{
+			$("#right").width("100%");
 		}
-		function wSizeWidth(){
-			if (!$("#openClose").is(":hidden")){
-				var leftWidth = ($("#left").width() < 0 ? 0 : $("#left").width());
-				$("#right").width($("#content").width()- leftWidth - $("#openClose").width() -5);
-			}else{
-				$("#right").width("100%");
-			}
-		}// <c:if test="${tabmode eq '1'}"> 
-		function openCloseClickCallBack(b){
-			$.fn.jerichoTab.resize();
-		} // </c:if>
-	</script>
-	<script src="${ctxStatic}/common/wsize.min.js" type="text/javascript"></script>
+	}// <c:if test="${tabmode eq '1'}">
+	function openCloseClickCallBack(b){
+		$.fn.jerichoTab.resize();
+	} // </c:if>
+</script>
+<script src="${ctxStatic}/common/wsize.min.js" type="text/javascript"></script>
 </body>
 </html>
