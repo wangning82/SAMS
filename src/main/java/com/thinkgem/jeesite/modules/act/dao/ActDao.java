@@ -6,6 +6,9 @@ package com.thinkgem.jeesite.modules.act.dao;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.act.entity.Act;
+import org.activiti.engine.repository.Model;
+
+import java.util.List;
 
 /**
  * 审批DAO接口
@@ -16,5 +19,6 @@ import com.thinkgem.jeesite.modules.act.entity.Act;
 public interface ActDao extends CrudDao<Act> {
 
 	public int updateProcInsIdByBusinessId(Act act);
+	public List<Model> findModels(String category);
 	
 }

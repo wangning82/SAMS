@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.act.dao.ActDao;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -17,6 +18,7 @@ import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ModelQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.apache.commons.io.IOUtils;
@@ -44,13 +46,20 @@ public class ActModelService extends BaseService {
 	@Autowired
 	private RepositoryService repositoryService;
 
+	@Autowired
+	private ActDao actDao;
+
+	public Page<Model> findPage(Page<Model> page, String  category) {
+		page.setList(actDao.findModels(category));
+		return page;
+	}
 	/**
 	 * 流程模型列表
 	 */
 	public Page<org.activiti.engine.repository.Model> modelList(Page<org.activiti.engine.repository.Model> page, String category) {
 
 		ModelQuery modelQuery = repositoryService.createModelQuery().latestVersion().orderByLastUpdateTime().desc();
-		
+
 		if (StringUtils.isNotEmpty(category)){
 			modelQuery.modelCategory(category);
 		}

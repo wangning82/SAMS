@@ -62,7 +62,11 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(Order order, Model model) {
 		model.addAttribute("order", order);
-		String view = "orderForm";
+		String view ="orderForm";
+		String type=order.getType();
+		if(StringUtils.isNotBlank(type)&&type.equals("2")){
+			view ="orderBackForm";
+		}
 
 		// 查看审批申请单
 		if (org.apache.commons.lang3.StringUtils.isNotBlank(order.getId())){//.getAct().getProcInsId())){

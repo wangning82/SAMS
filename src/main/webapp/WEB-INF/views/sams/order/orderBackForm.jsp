@@ -24,25 +24,13 @@
             });
         });
     </script>
-    <script type="application/javascript">
-        function queryInfo(){
-            $.ajax({
-                url:'/jinwei/a/manage/recong/recognizeCertificate',
-                //data:{'imgPath':imgPath,'templet':templet},
-                dataType:'json',
-                type:'POST',
-                success:function(data){
-                    alert(data);
-                }
-            });
-        }
-    </script>
 </head>
 <body>
 <ul class="nav nav-tabs">
-</ul>
+
+   </ul>
 <br/>
-<form:form id="inputForm" modelAttribute="order" action="${ctx}/sams/order/auditSave" method="post" class="form-horizontal">
+<form:form id="inputForm" modelAttribute="order" action="${ctx}/sams/order/save" method="post" class="form-horizontal">
     <form:hidden path="id"/>
     <form:hidden path="act.taskId"/>
     <form:hidden path="act.taskName"/>
@@ -53,20 +41,26 @@
     <form:hidden id="flag" path="act.flag"/>
     <sys:message content="${message}"/>
     <fieldset>
-        <legend>审批申请</legend>
+        <legend>退单申请</legend>
         <table class="table-form">
             <tr>
 
                 <td class="tit">销售：</td>
                 <td>
+
+
                     <form:input path="saler.name" htmlEscape="false" maxlength="64"
-                                class="input-xlarge required"  readonly="true"/>
-                    <form:hidden path="saler.id"/>
+                                class="input-xlarge required" value="${fns:getUser().name}" readonly="true"/>
+                    <form:hidden path="saler.id" value="${fns:getUser().id}"/>
+
+
                 </td>
                 <td class="tit">部门：</td>
                 <td>
+
                     <form:input path="saler.office.name" htmlEscape="false" maxlength="64"
-                                class="input-xlarge"  readonly="true"/>
+                                class="input-xlarge" value="${fns:getUser().office.name}" readonly="true"/>
+
                 </td>
             </tr>
             <tr>
@@ -76,7 +70,7 @@
                 </td>
                 <td class="tit">合同日期：</td>
                 <td>
-                    <input id="orderDate" name="createDate" type="text" readonly="readonly" maxlength="20"
+                    <input id="orderDate" name="orderDate" type="text" readonly="readonly" maxlength="20"
                            class="input-xlarge Wdate"
                            value="<fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
                            onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
@@ -105,7 +99,7 @@
             <tr>
                 <td class="tit">备注：</td>
                 <td colspan="3">
-                    <form:textarea path="remark" htmlEscape="false" maxlength="500" class="input-xlarge" />
+                    <form:textarea path="remark" htmlEscape="false" maxlength="500" class="input-xlarge"/>
                 </td>
             </tr>
             <tr>
@@ -126,29 +120,22 @@
                         ${order.textC}
                 </td>
             </tr>
-            <tr>
-                <td class="tit">您的意见</td>
-                <td colspan="5">
-                    <form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/>
-                </td>
-            </tr>
 
         </table>
     </fieldset>
     <div class="form-actions">
-
-        <shiro:hasPermission name="sams:order:order:edit">
-            <c:if test="${order.act.taskDefKey eq 'apply_end'}">
-                <input id="btnSubmit" class="btn btn-primary" type="submit" value="兑 现" onclick="$('#flag').val('yes')"/>&nbsp;
-            </c:if>
-            <c:if test="${order.act.taskDefKey ne 'apply_end'}">
-                <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+        <shiro:hasPermission name="oa:testAudit:edit">
+            <input id="btnSubmit" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
+            <c:if test="${not empty order.id}">
+                <input id="btnSubmit2" class="btn btn-inverse" type="submit" value="销毁申请"
+                       onclick="$('#flag').val('no')"/>&nbsp;
             </c:if>
         </shiro:hasPermission>
-        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+        <%--<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>--%>
     </div>
-    <act:histoicFlow procInsId="${order.act.procInsId}"/>
+    <c:if test="${not empty order.id}">
+        <act:histoicFlow procInsId="${order.act.procInsId}"/>
+    </c:if>
 </form:form>
 </body>
 </html>

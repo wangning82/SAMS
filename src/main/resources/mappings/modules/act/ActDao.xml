@@ -7,5 +7,12 @@
 			proc_ins_id = #{procInsId}
 		WHERE id = #{businessId}
 	</update>
+
+	<select id="findModels" resultType="org.activiti.engine.impl.persistence.entity.ModelEntity">
+		select * from ACT_RE_MODEL
+		<if test="category!= null and category != ''">
+			where	category_=#{category}
+		</if>
+	</select>
 	
 </mapper>

@@ -28,6 +28,14 @@ public class Order extends ActEntity<Order> {
 	private String textA;		// 销售主管审批
 	private String textB;		// 财务主管审批
 	private String textC;		// 领导审批
+	private String type;         //类型
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public Date getOrderDate() {
 		return orderDate;

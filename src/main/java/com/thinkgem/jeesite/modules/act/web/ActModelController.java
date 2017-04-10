@@ -37,7 +37,7 @@ public class ActModelController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String modelList(String category, HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		Page<org.activiti.engine.repository.Model> page = actModelService.modelList(
+		Page<org.activiti.engine.repository.Model> page = actModelService.findPage(
 				new Page<org.activiti.engine.repository.Model>(request, response), category);
 
 		model.addAttribute("page", page);
